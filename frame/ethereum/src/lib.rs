@@ -116,7 +116,7 @@ where
 	}
 
 	pub fn check_self_contained(&self) -> Option<Result<H160, TransactionValidityError>> {
-		if let Call::transact { transaction } = self {
+		if let Call::transact ( transaction ) = self {
 			let check = || {
 				let origin = Pallet::<T>::recover_signer(&transaction).ok_or_else(|| {
 					InvalidTransaction::Custom(TransactionValidationError::InvalidSignature as u8)
@@ -135,7 +135,7 @@ where
 		&self,
 		origin: &H160,
 	) -> Option<Result<(), TransactionValidityError>> {
-		if let Call::transact { transaction } = self {
+		if let Call::transact ( transaction ) = self {
 			Some(Pallet::<T>::validate_transaction_in_block(
 				*origin,
 				&transaction,
@@ -146,7 +146,7 @@ where
 	}
 
 	pub fn validate_self_contained(&self, origin: &H160) -> Option<TransactionValidity> {
-		if let Call::transact { transaction } = self {
+		if let Call::transact ( transaction ) = self {
 			Some(Pallet::<T>::validate_transaction_in_pool(
 				*origin,
 				transaction,
